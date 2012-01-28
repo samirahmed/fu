@@ -1,5 +1,6 @@
-[CommandlineFu.com] :http://www.commandlinefu.com/commands/browse
-[ great guide on how to make Python script executable on unix ] http://effbot.org/pyfaq/how-do-i-make-a-python-script-executable-on-unix.htm
+[CommandlineFu.com]: http://www.commandlinefu.com/commands/browse
+
+[great guide on how to make Python script executable on unix]: http://effbot.org/pyfaq/how-do-i-make-a-python-script-executable-on-unix.htm
 
 # What is cfu?
 

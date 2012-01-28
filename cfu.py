@@ -1,67 +1,105 @@
+#!/usr/bin/python
+
+import os
+import json
 import urllib2
 import sys
 import base64
 import time
+import argparse
+from Tkinter import Tk
+
 
 # Start time
 start = int(round(time.time() * 1000))
 
-# Maximum number of commands to display
-commandMAX = 3;
+def parse():
 
-def main():		
+		parser = argparse.ArgumentParser( prog = "cfu", description = "The commandline.fu command line search utility", add_help = True)
+#		parser.add_argument("-i","--Interactive", dest ="interactive", action = "store_true" , default = False, help = "Interacive mode enables you to run a command" );
+		parser.add_argument("-c","--count", action="store" ,dest = "count" , default = 3, type = int , help = " The number of search results to display, default is 3");
+		parser.add_argument("-a","--all",dest = "showAll",  action = "store_true", default = False, help = "Display all the search results" )
+		parser.add_argument("-v", "--verbose",dest = "verbose", action = "store_true", default = False, help = "Show vote counts and url")
+		parser.add_argument("query_terms" , nargs=argparse.REMAINDER)
+
+		return parser.parse_args();
+
+#def main():		
+
+
+def api( query_terms ) :
+		query = " ".join(query_terms)										# Create query from commandline args
 		
-# Create query from commandline args
-		query = ""
-		for terms in sys.argv[1:] :
-				query+= terms + " "
-		query = query[: len(query)-1]
+		query_b64 = base64.b64encode(query ) 						# Get the base 64 encoded query
 
-# Get the base 64 encoded query
-		b64 = base64.b64encode(query)
+		url =  "http://www.commandlinefu.com/commands/matching/" + query + "/" + query_b64 + "/json/"
+		url = url.replace(" ","%20")										# Generate the url
 
-		url =  "http://www.commandlinefu.com/commands/matching/" + query + "/" + b64 + "/plaintext/"
-		url = url.replace(" ","%20")
+		try :																						#	Make request to the commandline fu API, split response by lines and print
+					results  				= urllib2.urlopen(url)
+					response_text	 	= results.read()
+					return json.loads(response_text)					# Create json file and return
 
-#	Make request to the commandline fu API, split response by lines and print
-		try :
-					results  = urllib2.urlopen(url)
-					text 		 = results.read()
-					printResponse (text.split("\n"))
-					duration =  int(round(time.time() * 1000)) -  start
-					print "\t%dms total:%d" % ( duration, text.count("#")-1 )
 		except urllib2.URLError, e:
-				print "cfU: ERROR. Unable to fetch search results" 
+				sys.exit("cfU: ERROR. Unable to connect to commandlinefu.com") 
 
-def printResponse ( lines ) :
+def display ( response_json , isVerbose, count , showAll ) :
+
+		total = len(response_json)
+		# Check if we have any results, if inform user and exit
 		
-# If there are less than 3 lines return
-		if ( len(lines) <4) :
+		if ( total  <1 ) :
 				print "\tcfu: No Results Matching Query"
-				return
-
-# prints an array of strings, skipping the first line 
-		commandCount = 0
-		for ll in lines[1:] :
-				if len(ll) >0 and ll[0] == '#' :
-						commandCount +=1
-						if commandCount > commandMAX:
-								break
-				print "\t" + ll
-
-# Print help instructions
-def helpprint():
+				sys.exit(0)
 		
-		print "\n\t'cfu' is a tool for searching http://www.commandlinefu.com  \n"
-		print	"\tUSAGE: $cfu <search query>"
-		print "\te.g	:	$cfu uuencode mail \n"
-		print "\tThis will return a list of results matching your search \n"
+		display_count = total if showAll else min(total,count)
 
+		num = 1
 
+		# Print each response
+		for result in response_json[: display_count]:
+				print ' %d\t# ' % num , result['summary']
+				print '\t', result['command']
+				if isVerbose :
+						print '\tURL: ' , result['url']
+						print '\tvotes: ', result['votes'] 
+				print "\n"
+				num += 1
+
+		# Print the duration and number of responses
+		duration =  int(round(time.time() * 1000)) -  start 
+		print "\t%dms total:%d" % ( duration, total )		
+
+		return display_count
+#
+#def interact( response_json , length) :
+#		
+#		# Prompt user for which commaind they wish to run
+#		index_string = raw_input("\tRun Command (1-%d):" % length )
+#		index = int(index_string)
+#
+#		# Check if index valid and if so run
+#		if index <= length and index > 0 :	
+#				os.system(response_json[index-1]['command'].encode('ascii','ignore'))
+#				print response_json[index-1]['command'] , type( response_json[index-1]['command'].encode('ascii','ignore'))
+#		sys.exit(0)
+#		
+
+def main() : 
+
+		args = parse()																															# parse the commandline input
+		
+		response_json =  api( args.query_terms)																			# get json from api
+		
+		count =	display( response_json, args.verbose, args.count , args.showAll ) 	# print results
+
+#		if args.interactive :
+#				interact(response_json, count)																					 prompt user for which command to run
+#
 if __name__ == "__main__":
+		
+		print ""
 		if len(sys.argv) == 1 :
-				print "cfu: Incorrect usage, please include search terms. See 'cfu --help' " 
-		elif (sys.argv[1] == "--help") or (sys.argv[1] == "-h") :
-				helpprint()
+				print "\tcfu: Incorrect usage, please include search terms. See 'cfu --help' " 
 		else :
 				main( )

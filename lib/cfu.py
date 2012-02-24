@@ -7,15 +7,17 @@ import sys
 import base64
 import time
 import argparse
-from Tkinter import Tk
-
+from  terminalColor import color
 
 # Start time
 start = int(round(time.time() * 1000))
 
 def parse():
 
-		parser = argparse.ArgumentParser( prog = "cfu", description = "The commandline.fu command line search utility", add_help = True)
+		# Create an argument parser for use dealing with the various command line arguments
+		descriptionStr = "%s is a command line iterface for the commandlinefu.com. You can use cfu to tap into the conventional CLI wisdom of the internet " %(color.cyan("cfu"))
+
+		parser = argparse.ArgumentParser( prog = "cfu", description = descriptionStr, add_help = True)
 #		parser.add_argument("-i","--Interactive", dest ="interactive", action = "store_true" , default = False, help = "Interacive mode enables you to run a command" );
 		parser.add_argument("-c","--count", action="store" ,dest = "count" , default = 3, type = int , help = " The number of search results to display, default is 3");
 		parser.add_argument("-a","--all",dest = "showAll",  action = "store_true", default = False, help = "Display all the search results" )
@@ -23,8 +25,6 @@ def parse():
 		parser.add_argument("query_terms" , nargs=argparse.REMAINDER)
 
 		return parser.parse_args();
-
-#def main():		
 
 
 def api( query_terms ) :
@@ -98,8 +98,7 @@ def main() :
 #
 if __name__ == "__main__":
 		
-		print ""
 		if len(sys.argv) == 1 :
-				print "\tcfu: Incorrect usage, please include search terms. See 'cfu --help' " 
+				print "%s: Incorrect usage, please include search terms. See 'cfu --help' " % ( color.cyan("cfu") ) 
 		else :
 				main( )

@@ -1,0 +1,5 @@
+To ensure everything is working, you can run the following test
+
+		$ make color platform dotfile api
+
+IF successful, each test will run and print the output

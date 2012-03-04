@@ -63,7 +63,7 @@ def display ( response_json , isVerbose, count , showAll ) :
 				if isVerbose :
 						print '\tURL: ' , result['url']
 						print '\tvotes: ', result['votes'] 
-				print "\n"
+				print ""
 				num += 1
 
 		# Print the duration and number of responses

@@ -1,3 +1,4 @@
+
 """
 Test Script for commandlinefu api module
 """
@@ -7,9 +8,11 @@ import sys
 
 # Add to sys.path and then import
 sys.path.insert(0, os.path.abspath(".."))
-from cfuAPI import API
+from api import API
 
-api = API( ["stream", "youtube"] )
+print "\nAPI test ------------------------\n"
+
+api = API( sys.argv[1:] )
 api.load()
 api.display( True, 3 ,True)
 	

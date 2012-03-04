@@ -55,18 +55,18 @@ class color:
 				return color.WARNING + string + color.ENDC
 
 		@staticmethod
-		def ok_blue(string):
+		def blue(string):
 				return color.OKBLUE + string + color.ENDC
 
 		@staticmethod
-		def ok_green(string):
+		def green(string):
 				return color.OKGREEN + string + color.ENDC
-		
+
 		@staticmethod
 		def testAll( string ):
 				print "HEADER  :\t" + color.header( string )
-				print "OKBLUE  :\t" + color.ok_blue( string)
-				print "OKGREEN :\t" + color.ok_green(string)
+				print "OKBLUE  :\t" + color.blue( string)
+				print "OKGREEN :\t" + color.green(string)
 				print "CYAN    :\t" + color.cyan(string)
 				print "RED     :\t" + color.red(string)
 				print "MAGENTA :\t" + color.magenta(string)

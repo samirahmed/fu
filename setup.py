@@ -8,8 +8,8 @@ import os
 import shutil
 
 package = ['lib']
-SCRIPT_TO_INSTALL = 'fu/fu'
-SCRIPT_TO_RENAME = 'fu/fu.py'
+SCRIPT_TO_INSTALL = 'src/fu'
+SCRIPT_TO_RENAME = 'src/fu.py'
 
 if os.path.exists(SCRIPT_TO_INSTALL):
   # Read size is 128*20 for no good reason.
@@ -45,6 +45,6 @@ setup(
     author_email="samir@samir-ahmed.com",
     url="http://github.com/samirahmed/fu",
     packages=package,
- 		package_dir={'lib':'fu/lib'},
+ 		package_dir={'lib':'src/lib'},
  		scripts = [SCRIPT_TO_INSTALL]
 	)

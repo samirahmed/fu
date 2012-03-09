@@ -6,10 +6,11 @@ import sys
 import base64
 import time
 import argparse
-from  terminalColor import color
-from  api import API
-from  platform_utils import system
-from  config import dotfile
+import lib
+from  lib.terminalColor import color
+from  lib.api import API
+from  lib.platform_utils import system
+from  lib.config import dotfile
 
 # Start time
 start = int(round(time.time() * 1000))

@@ -2,6 +2,7 @@
 
 import os
 import json
+import urllib2
 import sys
 import base64
 import time
@@ -31,20 +32,21 @@ def parse():
 
 def do_open( index, results ):
 
-		try :
+#try :
 
-				# Extract the command, get a handle of the user's os and launch the url in a browser
-				url = json.loads(results)[index-1]['url']
-				user_system  = system()
-				user_system.open(url)
-				
-				# notify the user
-				print "%s Opening %s" %(color.cyan('fu!'), color.yellow(url) )
+		# Extract the command, get a handle of the user's os and launch the url in a browser
+		print results
+		url = json.loads(results)[index-1]['url']
+		user_system  = system()
+		user_system.open(url)
+		
+		# notify the user
+		print "%s Opening %s" %(colors.cyan('fu!'), colors.yellow(url) )
 
-		except :
-				# catch invalid index
-				print "%s: %s invalid index number!" % ( color.cyan('fu'), color.fail('Error') )
-			
+		#	except :
+		# catch invalid index
+		print "%s: %s invalid index number!" % ( color.cyan('fu'), color.fail('Error') )
+	
 
 def do_copy(index, results):
 		

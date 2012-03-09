@@ -13,6 +13,8 @@ if len(sys.argv) > 1:
 		else :
 				print "Oops! Unable too copy!"
 				print "Looks like you have a " + my_system.name + ". Please ensure you have " + my_system.copy_command
+		my_system.open("http://www.commandlinefu.com")
 else :
 		print "usage: copy.py <copy term> "
 
+		

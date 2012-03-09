@@ -2,10 +2,11 @@
 		Platform Interface utility
 			
 """
-
+import webbrowser
 import subprocess
 import commands
 import platform
+from terminalColor import color
 
 class system:
 
@@ -16,14 +17,13 @@ class system:
 				# determine the type of platform
 				if 'darwin' in info:
 						self.name = 'mac'
-						self.copy_command = 'pbcopy';
-#						self.exec_command = '';
+						self.copy_command = 'pbcopy'
 				elif 'cygwin' in info.lower():
 						self.name = 'windows'
-						self.copy_command = 'clip';
+						self.copy_command = 'clip'
 				else :
 						self.name = 'linux'
-						self.copy_command = 'xclip -selction clipboard';
+						self.copy_command = 'xclip -selction clipboard'
 
 		"""Copy given string into system clipboard."""
 		def copy(self,string):
@@ -36,9 +36,19 @@ class system:
 
 						# If it doesn't work return flase
 						worked = False
-#						print "%s: %s. The %s command failed" % ( color.cyan('cfu'), color.red('ERROR'), self.copy_command ) 
+						print "%s: %s. The %s command failed" % ( color.cyan('fu'), color.fail('ERROR'), self.copy_command ) 
 				return worked
 			 
+
+		""" Open the command in the clipboard """
+		def open(self,string):
+
+	 		# We will attempt to open the url
+			try:
+				webbrowser.open(string)
+			except:
+				print "%s: %s. \n\t%s" % (color.cyan('fu'), color.fail('Unable to Open Browser' ) , string)
+		
 		def paste(self):
 				"""Returns system clipboard contents."""
 				try:

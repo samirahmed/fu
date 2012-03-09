@@ -45,7 +45,7 @@ class API:
 							#	Make request to the commandline fu API, split response by lines and print
 							results  				= urllib2.urlopen(self.url)
 							response_text	 	= results.read()
-							
+							self.raw_json 	= response_text 
 							# Create json file and return
 							self.response_json = json.loads(response_text)				
 							return self.response_json
@@ -77,7 +77,7 @@ class API:
 						
 						# Extract the summary and commands	 
 						summary =  result['summary']
-						command = color.fail(result['command'])
+						command = color.green(result['command'])
 						
 						# Highlight any of the search terms 
 						summary = self.__highlight( summary ) 

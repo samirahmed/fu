@@ -3,6 +3,7 @@ clean:
 
 install:
 		python setup.py install --record installRecords.txt
+		rm -f src/fu
 
 uninstall:
 		cat installRecords.txt

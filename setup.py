@@ -39,7 +39,7 @@ else:
 
 setup(
     name="fu",
-    version="0.0.9",
+    version="0.1.1",
     description="Commandline Interface for commandlinefu.com",
     author="Samir Ahmed",
     author_email="samir@samir-ahmed.com",

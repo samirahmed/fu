@@ -1,5 +1,16 @@
 #!/usr/bin/python
 
+'''
+fu.py is a script that servers a commandline interface 
+for commandlinefu.com via its api.
+
+This script, handles searching, open/copying previous queries
+etc...
+
+Samir Ahmed 2011
+
+'''
+
 import os
 import json
 import sys
@@ -15,6 +26,19 @@ from  lib.config import dotfile
 # Start time
 start = int(round(time.time() * 1000))
 
+
+'''
+Parse: Uses argparse module for parsing commandline arguments and building the help menu
+
+Options available include....
+open : open, followed by a number 'i' will open the url associated with the 'ith' result of the last search in a browser
+copy : copy, like open, but will copy the ith result of the last search to the clipboard
+number : will set the number of results to display
+verbose : will show all the information
+all :	will show all results, overrides numbers
+query-terms : The terms to be searched.
+
+'''
 def parse():
 
 		# Create an argument parser for use dealing with the various command line arguments
@@ -27,9 +51,22 @@ def parse():
 		parser.add_argument("-a","--all",dest = "showAll",  action = "store_true", default = False, help = "Display all the search results" )
 		parser.add_argument("-v", "--verbose",dest = "verbose", action = "store_true", default = False, help = "Show vote counts and url")
 		parser.add_argument("query_terms" , nargs=argparse.REMAINDER)
+		
+		args = parser.parse_args()
+		
+		# Check we have just a single number, if so, we void the search, and set the number to the copy index 
+		if len( args.query_terms) == 1 :
+				try:
+						num = int(args.query_terms[0])
+						args.copy_index = num
+				except ValueError:
+						pass
 
-		return parser.parse_args();
+		return args
 
+'''
+Executes the open procedure
+'''
 def do_open( index, results ):
 
 		try :
@@ -47,6 +84,9 @@ def do_open( index, results ):
 				print "%s: %s invalid index number!" % ( color.cyan('fu'), color.fail('Error') )
 			
 
+'''
+Executes the copy procedures
+'''
 def do_copy(index, results):
 		
 		try:
@@ -62,6 +102,9 @@ def do_copy(index, results):
 				# catch invalid index	
 				print "%s: %s invalid index number!" % ( color.cyan('fu'), color.fail('Error') )
 
+'''
+Does a search on comandline fu.com
+'''
 def search( query_terms, verbose, count, showAll ):
 
 		# Make a new instance of API
@@ -80,6 +123,10 @@ def search( query_terms, verbose, count, showAll ):
 		# Return the json results to be saved
 		return api.raw_json
 
+'''
+Main script for interfacting dotfile, open, copy and search functions
+and parsing the input args.
+'''
 def main() : 
 
 		#Parse commandline arguments

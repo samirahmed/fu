@@ -1,0 +1,167 @@
+#!/usr/bin/python
+
+'''
+fu.py is a script that servers a commandline interface 
+for commandlinefu.com via its api.
+
+This script, handles searching, open/copying previous queries
+etc...
+
+Samir Ahmed 2011
+
+'''
+
+import os
+import json
+import sys
+import base64
+import time
+import argparse
+import lib
+from  lib.terminalColor import color
+from  lib.api import API
+from  lib.platform_utils import system
+from  lib.config import dotfile
+
+# Start time
+start = int(round(time.time() * 1000))
+
+
+'''
+Parse: Uses argparse module for parsing commandline arguments and building the help menu
+
+Options available include....
+open : open, followed by a number 'i' will open the url associated with the 'ith' result of the last search in a browser
+copy : copy, like open, but will copy the ith result of the last search to the clipboard
+number : will set the number of results to display
+verbose : will show all the information
+all :	will show all results, overrides numbers
+query-terms : The terms to be searched.
+
+'''
+def parse():
+
+		# Create an argument parser for use dealing with the various command line arguments
+		descriptionStr = "%s is a command line iterface for the commandlinefu.com. You can use fu to tap into the conventional CLI wisdom of the internet " %(color.cyan("fu"))
+
+		parser = argparse.ArgumentParser( prog = "fu", description = descriptionStr, add_help = True)
+		parser.add_argument("-o","--open", dest ="open_index",action="store", default = 0 , type = int, help = "Opens specifed command number in default browser i.e fu -o 3")
+		parser.add_argument("-c","--copy", dest ="copy_index", action = "store" , default = 0, type = int , help = "Copies specified comamnd number to clipboard i.e fu -c 3" )
+		parser.add_argument("-n","--number", action="store" ,dest = "display_count" , default = 3, type = int , help = " The number of search results to display, default is 3");
+		parser.add_argument("-a","--all",dest = "showAll",  action = "store_true", default = False, help = "Display all the search results" )
+		parser.add_argument("-v", "--verbose",dest = "verbose", action = "store_true", default = False, help = "Show vote counts and url")
+		parser.add_argument("query_terms" , nargs=argparse.REMAINDER)
+		
+		args = parser.parse_args()
+		
+		# Check we have just a single number, if so, we void the search, and set the number to the copy index 
+		if len( args.query_terms) == 1 :
+				try:
+						num = int(args.query_terms[0])
+						args.copy_index = num
+				except ValueError:
+						pass
+
+		return args
+
+'''
+Executes the open procedure
+'''
+def do_open( index, results ):
+
+		try :
+
+				# Extract the command, get a handle of the user's os and launch the url in a browser
+				url = json.loads(results)[index-1]['url']
+				user_system  = system()
+				user_system.open(url)
+				
+				# notify the user
+				print "%s Opening %s" %(color.cyan('fu!'), color.yellow(url) )
+
+		except :
+				# catch invalid index
+				print "%s: %s invalid index number!" % ( color.cyan('fu'), color.fail('Error') )
+			
+
+'''
+Executes the copy procedures
+'''
+def do_copy(index, results):
+		
+		try:
+				# extract the command, get a handle to user's clipboard and copy the command 
+				command = json.loads(results)[index-1]['command']
+				user_system = system()
+				user_system.copy(command)
+				
+				# notify the user
+				print "%s Copied to Clipboard!\n\t%s" % (color.cyan('fu'), color.green(command) )
+
+		except:
+				# catch invalid index	
+				print "%s: %s invalid index number!" % ( color.cyan('fu'), color.fail('Error') )
+
+'''
+Does a search on comandline fu.com
+'''
+def search( query_terms, verbose, count, showAll ):
+
+		# Make a new instance of API
+		api = API(query_terms)
+
+		# Load API
+		api.load()
+
+		# Print results
+		api.display( verbose, count, showAll )
+
+		# Print meta data
+		duration =  int(round(time.time() * 1000)) -  start 
+		print "\t%dms total:%d" % ( duration, api.total  )		
+
+		# Return the json results to be saved
+		return api.raw_json
+
+'''
+Main script for interfacting dotfile, open, copy and search functions
+and parsing the input args.
+'''
+def main() : 
+
+		#Parse commandline arguments
+		args = parse()	
+		
+		# Open dotfile
+		dfile = dotfile()
+
+		if args.copy_index > 0 :
+				
+				# Load the results from the dotfile and make open
+				results_json = dfile.result()
+				command = do_copy( args.copy_index , results_json )
+				dfile.save_copy(command)
+
+		elif args.open_index > 0:
+				
+				# Load the files from the dotfile and make copy
+				results_json =  dfile.result()
+				do_open(args.open_index , results_json )
+		
+		else :
+				
+				# Otherwise we pass the arguments along to the api, and display them
+				results_json = search( args.query_terms ,args.verbose, args.display_count , args.showAll ) 	
+				
+				# Save the results to dotfile
+				dfile.save_result(results_json)
+
+		# Save and close the dotfile
+		dfile.save()
+
+if __name__ == "__main__":
+		
+		if len(sys.argv) == 1 :
+				print "%s: Incorrect usage, please include search terms. See 'fu --help' " % ( color.cyan("fu") ) 
+		else :
+				main( )

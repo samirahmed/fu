@@ -1,7 +1,5 @@
 [CommandlineFu.com]: http://www.commandlinefu.com/commands/browse
 
-[great guide on how to make Python script executable on unix]: http://effbot.org/pyfaq/how-do-i-make-a-python-script-executable-on-unix.htm
-
 # What is Fu?
 
 A simple commandline utility for querying commandlinefu.com
@@ -18,26 +16,49 @@ Fu makes commandlinefu more accessible because I find that I use
 
 ## How do I use it?
 
+It's easy to install, all you need to do is download and make
+
+	$ git clone git@github.com:samirahmed/fu.git
+	
+	$ cd fu/
+	
+	$ sudo make install
+
+If that last step doesn't work you can use the setup.py
+
+	$ sudo python setup.py install --record installRecords.txt
+
 You can query fu by adding any search terms as arguments
 
 For example if you want to search for how to "send binary mail attachment"
 
-		$ python fu.py send binary mail attachment
+		$ fu send binary mail attachment                                           
+		 1	#  Send email with one or more binary attachments
+			echo "Body goes here" | mutt -s "A subject" -a /path/to/file.tar.gz recipient@example.com
 			
-				# Send email with one or more binary attachments
-					echo "Body goes here" | mutt -s "A subject" -a /path/to/file.tar.gz recipient@example.com
-						
-				# Send a binary file as an attachment to an email
-					uuencode archive.tar.gz archive.tar.gz | mail -s "Emailing: archive.tar.gz" user@example.com
-				
-				804ms total:2
+		 2	#  Send a binary file as an attachment to an email
+			uuencode archive.tar.gz archive.tar.gz | mail -s "Emailing: archive.tar.gz" user@example.com
+			
+			498ms total:2
 
-## Using as unix executable
+## Uninstalling
 
-There is a very easy way to make this script an executable and add it to path on unix
+To remove fu you can do automagically with 
 
-See this [great guide on how to make Python script executable on unix]
+ 		$ cd fu/
+		
+		$ sudo make uninstall
+		
+Or you can do it manually by finding the files from your installRecords.txt file and removing them
 
-If you want to use fu as a command you can 
+One will be in your PYTHONPATH, the other in your /usr/local/ path probably
+
+## Questions?
+
+There is a wiki for more examples and info about usage.
+
+Feel free to contribute if you have more ideas!
+
+
 
 

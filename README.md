@@ -1,4 +1,5 @@
 [CommandlineFu.com]: http://www.commandlinefu.com/commands/browse
+[wiki]: https://github.com/samirahmed/fu/wiki/
 
 # What is Fu?
 
@@ -40,6 +41,14 @@ For example if you want to search for how to "send binary mail attachment"
 			uuencode archive.tar.gz archive.tar.gz | mail -s "Emailing: archive.tar.gz" user@example.com
 			
 			498ms total:2
+
+### Dependencies and Fixes
+
+It is possible you might not have some dependencies like argparse installed.
+
+	$ sudo easy_install argparse
+	
+See the [wiki] for more help  
 
 ## Uninstalling
 

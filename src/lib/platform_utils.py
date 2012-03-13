@@ -6,6 +6,7 @@ import webbrowser
 import subprocess
 import commands
 import platform
+import shlex
 from terminalColor import color
 
 class system:
@@ -24,7 +25,7 @@ class system:
 						self.copy_command = 'pbcopy'
 				else :
 						self.name = 'linux'
-						self.copy_command = 'xclip -selction clipboard'
+						self.copy_command = 'xclip -selection clipboard'
 
 		"""Copy given string into system clipboard."""
 		def copy(self,string):
@@ -32,7 +33,7 @@ class system:
 				# Assuming it works, we try and execute the function
 				worked = True
 				try:
-						subprocess.Popen([self.copy_command], stdin=subprocess.PIPE).communicate(str(unicode(string)))
+						subprocess.Popen(shlex.split(self.copy_command), stdin=subprocess.PIPE).communicate(str(unicode(string)))
 				except Exception, why:
 
 						# If it doesn't work return flase

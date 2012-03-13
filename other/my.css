@@ -1,0 +1,17 @@
+
+.shot {
+  /*font-family: Georgia, serif;*/
+  line-height: 1.4em;
+  background-color: #444444;
+  border-radius: 7px;
+  color: #444;
+  /*padding: 1px 20px;*/
+  margin-bottom: 0px;
+    width:95%;
+
+  
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
+

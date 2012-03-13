@@ -19,11 +19,11 @@ Fu makes commandlinefu more accessible because I find that I use
 
 It's easy to install, all you need to do is download and make
 
-	$ git clone git@github.com:samirahmed/fu.git
-	
-	$ cd fu/
-	
-	$ sudo make install
+```
+$ git clone git://github.com/samirahmed/fu.git
+$ cd fu/
+$ sudo make install
+```
 
 If that last step doesn't work you can use the setup.py
 
@@ -54,10 +54,11 @@ See the [wiki] for more help
 
 To remove fu you can do automagically with 
 
- 		$ cd fu/
-		
-		$ sudo make uninstall
-		
+```
+$ cd fu/
+$ sudo make uninstall
+```
+
 Or you can do it manually by finding the files from your installRecords.txt file and removing them
 
 One will be in your PYTHONPATH, the other in your /usr/local/ path probably

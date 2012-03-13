@@ -15,12 +15,13 @@ class system:
 				info = set( [ ss.lower() for ss in platform.uname() ])
 				
 				# determine the type of platform
-				if 'darwin' in info:
-						self.name = 'mac'
-						self.copy_command = 'pbcopy'
-				elif 'cygwin' in info.lower():
+				
+				if 'cygwin' in info:
 						self.name = 'windows'
 						self.copy_command = 'clip'
+				elif 'darwin' in info:
+						self.name = 'mac'
+						self.copy_command = 'pbcopy'
 				else :
 						self.name = 'linux'
 						self.copy_command = 'xclip -selction clipboard'

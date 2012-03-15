@@ -81,3 +81,7 @@ Thumbs.db
 ############################
 fu.md
 installRecords.txt
+
+# Package files #
+src/fu.zip
+fu

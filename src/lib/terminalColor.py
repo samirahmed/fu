@@ -25,53 +25,53 @@ class color:
 				self.WARNING = ''
 				self.FAIL = ''
 				self.ENDC = ''
-		
+
 		@staticmethod
 		def cyan(string):
-				return color.CYAN + string + color.ENDC
-		
+				return ''.join([color.CYAN, string, color.ENDC])
+
 		@staticmethod
 		def magenta(string):
-				return color.MAGENTA + string + color.ENDC
+				return ''.join([color.MAGENTA, string, color.ENDC])
 
 		@staticmethod
 		def red(string):
-				return color.RED + string + color.ENDC
+				return ''.join([color.RED, string, color.ENDC])
 
 		@staticmethod
 		def yellow(string):
-				return color.YELLOW + string + color.ENDC
+				return ''.join([color.YELLOW, string, color.ENDC])
 
 		@staticmethod
 		def header(string):
-				return color.HEADER + string + color.ENDC
+				return ''.join([color.HEADER, string, color.ENDC])
 
 		@staticmethod
 		def fail(string):
-				return color.FAIL + string + color.ENDC
+				return ''.join([color.FAIL, string, color.ENDC])
 
 		@staticmethod
 		def warning(string):
-				return color.WARNING + string + color.ENDC
+				return ''.join([color.WARNING, string, color.ENDC])
 
 		@staticmethod
 		def blue(string):
-				return color.OKBLUE + string + color.ENDC
+				return ''.join([color.OKBLUE, string, color.ENDC])
 
 		@staticmethod
 		def green(string):
-				return color.OKGREEN + string + color.ENDC
+				return ''.join([color.OKGREEN, string, color.ENDC])
 
 		@staticmethod
 		def testAll( string ):
-				print "HEADER  :\t" + color.header( string )
-				print "OKBLUE  :\t" + color.blue( string)
-				print "OKGREEN :\t" + color.green(string)
-				print "CYAN    :\t" + color.cyan(string)
-				print "RED     :\t" + color.red(string)
-				print "MAGENTA :\t" + color.magenta(string)
-				print "YELLOW  :\t" + color.yellow( string)
-				print "WARNING :\t" + color.warning( string)
-				print "FAIL    :\t" + color.fail( string)
-				
+				print "HEADER  :\t %s" % color.header( string )
+				print "OKBLUE  :\t %s" % color.blue( string)
+				print "OKGREEN :\t %s" % color.green(string)
+				print "CYAN    :\t %s" % color.cyan(string)
+				print "RED     :\t %s" % color.red(string)
+				print "MAGENTA :\t %s" % color.magenta(string)
+				print "YELLOW  :\t %s" % color.yellow( string)
+				print "WARNING :\t %s" % color.warning( string)
+				print "FAIL    :\t %s" % color.fail( string)
+
 

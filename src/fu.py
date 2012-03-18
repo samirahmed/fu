@@ -93,11 +93,12 @@ def do_copy(index, results):
 				# extract the command, get a handle to user's clipboard and copy the command 
 				command = json.loads(results)[index-1]['command']
 				user_system = system()
-				user_system.copy(command)
+				copy_worked = user_system.copy(command)
 				
-				# notify the user
-				print "%s Copied to Clipboard!\n\t%s" % (color.cyan('fu'), color.green(command) )
-
+				if copy_worked:
+					# notify the user
+					print "%s Copied to Clipboard!\n\t%s" % (color.cyan('fu'), color.green(command) )
+					
 		except:
 				# catch invalid index	
 				print "%s: %s invalid index number!" % ( color.cyan('fu'), color.fail('Error') )

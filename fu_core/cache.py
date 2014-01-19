@@ -9,7 +9,6 @@
 # Url      : http://stackoverflow.com/questions/3358770/                       #
 #                   python-dictionary-is-thread-safe                           #
 # Author   : Chunqi SHI <diligence.cs@gmail.com>                               #
-# Copyright: &copy 2013 ~ present Chunqi SHI   <diligence.cs@gmail.com>        #
 ################################################################################
 
 import time, sys, os

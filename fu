@@ -112,7 +112,8 @@ def search( query_terms, verbose, count, showAll ):
 		api = API(query_terms)
 
 		# Load API
-		api.load()
+		# api.load()
+		api.load_with_cache()
 
 		# Print results
 		api.display( verbose, count, showAll )
@@ -149,7 +150,7 @@ def main() :
 				results_json =  dfile.result()
 				do_open(args.open_index , results_json )
 
-		else :
+		elif len(args.query_terms) > 0:
 
 				# Otherwise we pass the arguments along to the api, and display them
 				results_json = search( args.query_terms ,args.verbose, args.display_count , args.showAll )

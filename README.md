@@ -25,7 +25,7 @@ $ cd fu/
 $ sudo make install
 ```
 
-Or you just use bash alias if you is working under sh
+Or you just use bash alias if you are working under shell
 ```
 $ cd ~/workspace
 $ git clone git://github.com/samirahmed/fu.git
@@ -33,7 +33,7 @@ $ cd fu/
 $ pwd
 $ /usr/me/workspace/fu
 $ vi ~/.bashrc | vim ~/.bash_profile
-$ # add line  << ( alias fu="python /usr/me/workspace/fu/fu" )
+$ # add alias line <<|  alias fu="python /usr/me/workspace/fu/fu"
 $
 $ source ~/.bashrc |  source ~/.bashrc
 $ fu netstat

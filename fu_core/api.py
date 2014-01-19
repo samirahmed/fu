@@ -62,8 +62,16 @@ class API:
 													urllib2.ProxyHandler()
 										)
 							)
-							results  				= urllib2.urlopen(self.url)
+							headers = {
+										'User-Agent': r'Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7',
+										'Accept-Encoding':'gzip, deflate'
+							}
+							req = urllib2.Request(self.url, headers=headers)
+							results  				= urllib2.urlopen(req)
 							response_text	 	= results.read()
+							if 'gzip' in results.headers.get('Content-Encoding', ''):
+										import zlib
+										response_text = zlib.decompress(response_text, 16+zlib.MAX_WBITS)
 							import re
 							m = re.search(r'\[.*\]', response_text) ### make sure only json array.
 							response_text = m.group(0)

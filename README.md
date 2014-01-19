@@ -25,6 +25,20 @@ $ cd fu/
 $ sudo make install
 ```
 
+Or you just use bash alias if you is working under sh
+```
+$ cd ~/workspace
+$ git clone git://github.com/samirahmed/fu.git
+$ cd fu/
+$ pwd
+$ /usr/me/workspace/fu
+$ vi ~/.bashrc | vim ~/.bash_profile
+$ # add line  << ( alias fu="python /usr/me/workspace/fu/fu" )
+$
+$ source ~/.bashrc |  source ~/.bashrc
+$ fu netstat
+```
+
 If that last step doesn't work you can use the setup.py
 
 	$ sudo python setup.py install --record installRecords.txt
